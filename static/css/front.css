@@ -1,0 +1,15 @@
+#content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.front {
+    flex: 0 0 320px;
+    background-color: silver;
+    margin-top: 20px;
+}
+
+a {
+    display: block;
+}

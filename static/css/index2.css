@@ -1,0 +1,77 @@
+.overlay {
+    position: fixed;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    background: rgba(0, 0, 0, .7);
+    opacity: 0;
+    visibility: hidden;
+    transition: .3s linear;
+}
+
+#header {
+    height: 5%;
+    bottom: 100%;
+}
+
+#header.open {
+    opacity: 1;
+    visibility: visible;
+    bottom: 95%;
+}
+
+#footer {
+    height: 10%;
+    top: 100%;
+}
+
+#footer.open {
+    opacity: 1;
+    visibility: visible;
+    top: 90%;
+}
+
+.loader {
+    font-size: 10px;
+    text-indent: -9999em;
+    width: 11em;
+    height: 11em;
+    border-radius: 50%;
+    background: linear-gradient(to right, #ffffff 10%, rgba(255, 255, 255, 0) 42%);
+    position: relative;
+    animation: load 1.4s infinite linear;
+}
+
+.loader:before {
+    width: 50%;
+    height: 50%;
+    background: #ffffff;
+    border-radius: 100% 0 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+}
+
+.loader:after {
+    background: #808080;
+    width: 75%;
+    height: 75%;
+    border-radius: 50%;
+    content: '';
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+@keyframes load {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}

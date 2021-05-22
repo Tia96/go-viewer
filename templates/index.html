@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>go-viwer</title>
+    <link rel="stylesheet" href="static/css/front.css">
+</head>
+
+<body>
+    <div id="content">
+        {{range .}}
+        <div class="front">
+            <a href={{.TopPage}}>{{.Name}}
+                <p><img src={{.Thumbnail}}></p>
+            </a>
+        </div>
+        {{end}}
+    </div>
+</body>
+
+</html>
