@@ -5,7 +5,7 @@
 }
 
 .front {
-    flex: 0 0 auto;
+    flex: 0 0 0;
     background-color: silver;
     margin-top: 20px;
 }
