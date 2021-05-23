@@ -7,7 +7,7 @@ let config = {}
 window.onload = function () {
     setConfiguration();
 
-    file.title = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
+    file.title = location.pathname.replace(config.contentsFolder, "");
     file.pages = 0;
     file.nowPage = 0;
     file.previewPage = 0;
@@ -17,7 +17,7 @@ window.onload = function () {
 }
 
 function setConfiguration() {
-    config.contentsFolder = "../folder/";
+    config.contentsFolder = "/static/folder/";
     config.followingBufferPage = 5;
     config.previousBufferPage = 3;
     config.swipeBorder = 10;

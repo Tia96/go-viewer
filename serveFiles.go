@@ -6,25 +6,27 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
 
 type embeddedData struct {
-	Name        string
-	TopPage     string
-	Thumbnail	string
+	Name      string
+	TopPage   string
+	Thumbnail string
 }
 
 func serveTopPage(w http.ResponseWriter, r *http.Request) {
 	templateHtml := template.Must(template.ParseFiles("templates/index.html"))
 	files := dirWalk(getConfiguration().contentsFolder)
 	var data []embeddedData
-	for _, name := range files {
+	for _, file := range files {
+		escapedFile := filepath.Join(filepath.Dir(file), url.PathEscape(filepath.Base(file)))
 		data = append(data, embeddedData{
-			Name:    name,
-			TopPage: fmt.Sprintf("/%s/%s", getConfiguration().contentsFolder, url.PathEscape(name)),
-			Thumbnail: fmt.Sprintf("/%s/%s?page=0", getConfiguration().contentsFolder, url.PathEscape(name)),
+			Name:      filepath.Base(file),
+			TopPage:   fmt.Sprintf("%s", filepath.ToSlash(escapedFile)),
+			Thumbnail: fmt.Sprintf("%s?page=0", filepath.ToSlash(escapedFile)),
 		})
 	}
 	if err := templateHtml.Execute(w, data); err != nil {
@@ -42,20 +44,18 @@ func serve404(w http.ResponseWriter, r *http.Request) {
 // ServeFiles expects following urls
 // /static/css/***.css
 // /static/js/***.js
-// /static/folder/***.zip
-// /static/folder/***.zip/info
-// /static/folder/***.zip?page=1
+// /static/folder/***/***.zip
+// /static/folder/***/***.zip/info
+// /static/folder/***/***.zip?page=1
 func serveStaticFiles(w http.ResponseWriter, r *http.Request) {
 	log.Println(r.URL.Path, r.URL.Query())
 
 	// /static/folder/
 	if strings.HasPrefix(r.URL.Path, "/"+getConfiguration().contentsFolder) {
-		rest := strings.TrimPrefix(r.URL.Path, "/"+getConfiguration().contentsFolder+"/")
-		var fileName string
-		if strings.Contains(rest, "/") {
-			fileName = rest[:strings.Index(rest, "/")]
-		} else {
-			fileName = rest
+		// ***/***.zip
+		fileName := strings.TrimPrefix(r.URL.Path, "/"+getConfiguration().contentsFolder+"/")
+		if strings.HasSuffix(fileName, "/info") {
+			fileName = strings.TrimSuffix(fileName, "/info")
 		}
 
 		//info, page, topPage

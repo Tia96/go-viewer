@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -15,8 +16,12 @@ func dirWalk(dir string) []string {
 	}
 	var paths []string
 	for _, file := range files {
+		if file.IsDir() {
+			paths = append(paths, dirWalk(filepath.Join(dir, file.Name()))...)
+		}
+
 		if contains(getConfiguration().compressedFileExt, getFileExt(file.Name())) {
-			paths = append(paths, file.Name())
+			paths = append(paths, filepath.Join(dir, file.Name()))
 		}
 	}
 	return paths
