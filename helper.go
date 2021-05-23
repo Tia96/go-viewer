@@ -16,8 +16,6 @@ func dirWalk(dir string) []string {
 	}
 	var paths []string
 	for _, file := range files {
-		log.Println(file.Name())
-		log.Println(file.Mode())
 		if file.Mode().IsDir() || file.Mode()&os.ModeSymlink != 0 {
 			paths = append(paths, dirWalk(filepath.Join(dir, file.Name()))...)
 		}
