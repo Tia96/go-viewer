@@ -5,11 +5,13 @@
 }
 
 .front {
-    flex: 0 0 320px;
+    flex: 0 0 auto;
     background-color: silver;
     margin-top: 20px;
 }
 
-a {
-    display: block;
+img {
+    object-fit: contain;
+    width: 320px;
+    height: 400px;
 }

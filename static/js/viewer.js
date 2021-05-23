@@ -126,23 +126,25 @@ function movePageTo(page) {
 }
 
 function swipeAction(diffX) {
-    if (diffX > 0) {
+    if (diffX > 0 && file.pages - 1 > file.nowPage) {
         movePageWithAnimation(250, innerWidth - diffX);
         file.nowPage++;
         setImage([file.nowPage + config.followingBufferPage - 1]);
-    } else {
+    } else if (diffX < 0 && file.nowPage > 0) {
         movePageWithAnimation(250, -innerWidth - diffX);
         file.nowPage--;
         setImage([file.nowPage - config.previousBufferPage]);
+    } else {
+        movePage(-diffX);
     }
 }
 
 function clickAction(posX, diffX) {
-    if (posX < innerWidth / 3) {
+    if (posX < innerWidth / 3 && file.pages - 1 > file.nowPage) {
         movePageWithAnimation(250, innerWidth);
         file.nowPage++;
         setImage([file.nowPage + config.followingBufferPage - 1]);
-    } else if (posX > innerWidth * 2 / 3) {
+    } else if (posX > innerWidth * 2 / 3 && file.nowPage > 0) {
         movePageWithAnimation(250, -innerWidth);
         file.nowPage--;
         setImage([file.nowPage - config.previousBufferPage]);
